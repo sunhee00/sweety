@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.sunny.sweety.notice.mapper.NoticeMapper"><!-- namespace:mapper.xml과 매핑될 mapper.java(인터페이스)를 의미-->
+	
+	<select id="noticeList" resultType="kr.sunny.sweety.notice.entity.NoticeModel">
+		select notice_no
+			  ,notice_title
+			  ,notice_cont
+			  ,notice_writer
+			  ,notice_del_yn
+			  ,notice_date
+			from tb_notice
+			LIMIT #{pageindex}, #{pageSize} 
+	</select>
+	
+	<select id="countNoticeList" resultType="int">
+		select count(*)
+			from tb_notice 
+	</select>
+	
+</mapper>
