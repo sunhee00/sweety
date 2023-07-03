@@ -21,7 +21,7 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping("/")
 	public String home(Locale locale, Model model) {
 		logger.info("main.", locale);
 		

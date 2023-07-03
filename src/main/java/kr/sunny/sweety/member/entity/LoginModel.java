@@ -1,4 +1,4 @@
-package kr.sunny.sweety.login.entity;
+package kr.sunny.sweety.member.entity;
 
 import lombok.Data;
 

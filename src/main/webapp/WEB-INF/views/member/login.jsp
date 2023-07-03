@@ -15,7 +15,10 @@
 <script type="text/javascript">
 	
 	$(function () {
-		
+		var msg = $("#msg").val();
+		if(msg == false) {
+			alert(msg);
+		}
 	});
 	
 	//input 공백체크
@@ -33,14 +36,8 @@
 	
 	//로그인체크
 	function loginCheck(user_id, user_pw) {
-		var param = {
-				user_id : user_id,
-				user_pw : user_pw
-		}
-		var loginCheckListCallback = function(reval) {
-			
-		}
-		fn_callAjax("login/loginCheck.do","post",false,param,"text",loginCheckListCallback);
+		document.form1.action= "${contextPath}/member/loginCheck.do";
+		document.form1.submit(); //제출
 	}
 	
 	
@@ -53,20 +50,27 @@
 	<div class="container">
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-		<div>
+		<div style="width:60%; margin:0 auto;">
 			<h2>로그인</h2>
-			<div class="form-group">
-			  <label for="user_id">아이디</label>
-			  <input type="text" class="form-control" id="user_id" placeholder="아이디를 입력해 주세요." required>
-			</div>
-			<div class="form-group">
-			  <label for="user_pw">비밀번호</label>
-			  <input type="password" class="form-control" id="user_pw" placeholder="비밀번호를 입력해 주세요." required>
-			</div>
-			<div class="form-group">
-				<a href="${contextPath}/joinMem/joinMem.jsp" class="btn btn-info" id="joinButton" name="btn">회원가입</a>
-				<a href="javascript:fn_nullCheck()" class="btn btn-primary" id="loginButton" name="btn">로그인</a>
-			</div>
+			<form name="form1" method="post">
+				<div class="form-group">
+				  <label for="user_id">아이디</label>
+				  <input type="text" class="form-control" id="user_id" name="user_id" placeholder="아이디를 입력해 주세요." required>
+				</div>
+				<div class="form-group">
+				  <label for="user_pw">비밀번호</label>
+				  <input type="password" class="form-control" id="user_pw" name="user_pw" placeholder="비밀번호를 입력해 주세요." required>
+				</div>
+				<div class="form-group">
+					<a href="${contextPath}/member/join.do" class="btn btn-info" id="joinButton" name="btn">회원가입</a>
+					<a href="javascript:fn_nullCheck()" class="btn btn-primary" id="loginButton" name="btn">로그인</a>
+				</div>
+				<c:if test="${msg eq false}">
+				<div class="form-group">
+					<p>로그인 실패!</p>
+				</div>
+				</c:if>
+			</form>
 		</div>
   	</div>
 	

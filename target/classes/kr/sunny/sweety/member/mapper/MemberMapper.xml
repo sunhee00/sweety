@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.sunny.sweety.member.mapper.MemberMapper"><!-- namespace:mapper.xml과 매핑될 mapper.java(인터페이스)를 의미-->
+	
+	<select id="loginCheck" resultType="kr.sunny.sweety.member.entity.LoginModel">
+		select user_id, user_name
+			from tb_user 
+			where user_id = #{user_id} and user_pw = #{user_pw}
+	</select>
+	
+	<select id="idCheck" resultType="int">
+		select count(*)
+			from tb_user 
+			where user_id = #{user_id}
+	</select>
+	
+	<insert id="memJoin">
+		insert into tb_user 
+			(user_id,
+			user_pw,
+			user_name,
+			user_email,
+			user_zip,
+			user_addr,
+			user_addr_detail,
+			user_tel1,
+			user_tel2,
+			user_tel3,
+			user_birth) values (#{user_id},
+								#{user_pw},
+								#{user_name},
+								#{user_email},
+								#{user_zip},
+								#{user_addr},
+								#{user_addr_detail},
+								#{user_tel1},
+								#{user_tel2},
+								#{user_tel3},
+								#{user_birth})
+		
+	</insert>
+</mapper>

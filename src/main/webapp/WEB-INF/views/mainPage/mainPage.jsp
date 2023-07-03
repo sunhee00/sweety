@@ -19,7 +19,7 @@
 	
 	
 	<div class="container">
-	<%--header삽입 --%>
+	<%-- header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	  <div class="row">
 	    <div class="col-lg-4">%</div>
