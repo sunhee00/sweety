@@ -11,7 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
-<title>Insert title here</title>
+<title>로그인</title>
 <script type="text/javascript">
 	
 	$(function () {
@@ -67,7 +67,7 @@
 				</div>
 				<c:if test="${msg eq false}">
 				<div class="form-group">
-					<p>로그인 실패!</p>
+					<p style="color:red; font-weight:bold;">로그인 실패. 아이디나 비번을 확인해 주세요.</p>
 				</div>
 				</c:if>
 			</form>

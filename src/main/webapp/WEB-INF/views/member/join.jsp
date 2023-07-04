@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<title>Insert title here</title>
+<title>회원가입</title>
 <style>
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

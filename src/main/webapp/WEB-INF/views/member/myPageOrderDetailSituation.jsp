@@ -10,34 +10,49 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<title>Sweety</title>
+<script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<title>내 정보</title>
 <script type="text/javascript">
+	
+	$(function () {
+		fn_orderSituationDetailList();
+	});
+	
+	function fn_orderSituationDetailList() {
+		
+	}
+	
+	
 	
 </script>
 </head>
 <body>
-	
-	
-	<div class="container">
-	<%-- header삽입 --%>
+<input type="hidden" val="${order_shipping_yn}"/>
+<div class="container" >
+	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-		
-		<div class="row">
-		  <div class="col-lg-4">%</div>
-		  <div class="col-lg-4">%</div>
-		  <div class="col-lg-4">%</div>
-		</div>
-		<div class="row">
-		  <div class="col-lg-4">%</div>
-		  <div class="col-lg-4">%</div>
-		  <div class="col-lg-4">%</div>
-		</div>
-		<div class="row">
-		  <div class="col-lg-4">%</div>
-		  <div class="col-lg-4">%</div>
-		  <div class="col-lg-4">%</div>
-		</div>
-	</div>
+	<div class="empSamList">
+		<table class="table table-hover">
+		    <thead>
+		      <tr>
+		        <th>제품번호</th>
+		        <th>제품명</th>
+		        <th>주문날짜</th>
+		        <th>제품수량</th>
+		        <th>제품가격</th>
+		      </tr>
+		    </thead>
+		    <tbody id="order_tbody"></tbody>
+		 </table>
+</div>
+
+	<div class="paging_area"  id="empSamPagination"> </div>
 	
+</div>
+
+
+
+
 </body>
 </html>

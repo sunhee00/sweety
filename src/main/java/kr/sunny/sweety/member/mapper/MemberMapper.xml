@@ -39,4 +39,54 @@
 								#{user_birth})
 		
 	</insert>
+	
+	<!-- 마이페이지 정보 -->
+	<select id="myPageInfo" resultType="kr.sunny.sweety.member.entity.MyInfoModel">
+		select user_id,
+				user_pw,
+			   user_name,
+			   user_email,
+			   user_zip,
+			   user_addr,
+			   user_addr_detail,
+			   user_tel1,
+			   ser_tel2,
+			   user_tel3,
+			   user_date,
+			   user_birth
+			from tb_user
+			where user_id = #{user_id}
+	</select>
+	
+	<!-- 주문 상태 조회 -->
+	<select id="orderSituation" resultType="kr.sunny.sweety.member.entity.OrderModel">
+		select od.order_no
+			  ,od.order_price
+			  ,od.order_cancle_yn
+			  ,od.order_date
+			  ,od.order_sipping_yn
+			  ,odd.product_no
+			  ,pd.product_name
+			  ,odd.order_detail_amt
+			  ,odd.order_detail_price
+			from tb_order od
+				inner join tb_order_detail odd on od.order_no = odd.order_no
+				inner join tb_product pd on pd.product_no = odd.product_no
+			where od.user_id = #{user_id} and od.order_sipping_yn = #{order_shipping_yn} 
+			order by od.order_no desc, pd.product_no asc
+	</select>
+	
+	<!-- 주문 상태 조회 -->
+	<select id="countOrderSituation" resultType="int">
+		select count(*)
+			from tb_order od
+				inner join tb_order_detail odd on od.order_no = odd.order_no
+				inner join tb_product pd on pd.product_no = odd.product_no
+			where od.user_id = #{user_id} and od.order_sipping_yn = #{order_shipping_yn} 
+			order by od.order_no desc, pd.product_no asc
+	</select>
+	
+	
+	
+	
 </mapper>

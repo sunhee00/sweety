@@ -10,6 +10,7 @@
 			  ,notice_del_yn
 			  ,notice_date
 			from tb_notice
+			order by notice_no desc
 			LIMIT #{pageindex}, #{pageSize} 
 	</select>
 	
