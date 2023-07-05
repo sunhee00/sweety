@@ -28,7 +28,7 @@
 </script>
 </head>
 <body>
-<input type="hidden" val="${order_shipping_yn}"/>
+<input type="hidden" value="${order_no}" id="order_no"/>
 <div class="container" >
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>

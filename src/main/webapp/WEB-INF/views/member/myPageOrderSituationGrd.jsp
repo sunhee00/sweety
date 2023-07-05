@@ -15,10 +15,28 @@
 				<td>${list.order_no}</td>
 				<td>${list.order_price}</td>
 				<td>${list.order_date}</td>
-				<td>${list.order_shipping_yn}</td>
-				<td>${list.order_cancle_yn}</td>
-				<td><a href="javascript:fn_orderCancle(${order_no})">취소하기</a></td>
-				<td><a href="javascript:fn_orderDetail(${order_no})">상세보기</a></td>
+			<c:if test="${list.order_shipping_yn eq 'O'}">
+				<td>주문완료</td>
+			</c:if>
+			<c:if test="${list.order_shipping_yn eq 'D'}">
+				<td>배송중</td>
+			</c:if>
+			<c:if test="${list.order_shipping_yn eq 'C'}">
+				<td>배송완료</td>
+			</c:if>
+		<c:if test="${list.order_cancel_yn eq 'N'}">
+			<c:if test="${list.order_shipping_yn eq 'O'}">
+				<td><a href="javascript:fn_orderCancel(${order_no})">취소하기</a></td>
+			</c:if>
+			<c:if test="${list.order_shipping_yn ne 'O'}">
+				<td>취소불가</td>
+			</c:if>
+		</c:if>
+		<c:if test="${list.order_cancel_yn eq 'Y'}">
+				<td>취소완료</td>
+		</c:if>	
+			
+				<td><a href="${contextPath}/member/orderSituationDetail.do?order_no=${order_no}">상세보기</a></td>
 			</tr>
 		</c:forEach>
 	</c:if>

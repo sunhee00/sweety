@@ -19,6 +19,7 @@
 		fn_orderSituationList();
 	});
 	
+	//주문목록 리스트
 	function fn_orderSituationList() {
 		var param = {
 				order_shipping_yn : $("#order_shipping_yn").val()
@@ -30,10 +31,31 @@
 		fn_callAjax("orderSituationList.do","post",false,param,"text", osListCallback);
 	}
 	
+	//주문 취소
+	function fn_orderCancel(order_no) {
+		var param = {
+				order_no : order_no
+		}
+		var cancelCallback = function (reval) {
+			if(reval == 1) {
+				alert("주문이 취소되었습니다");
+
+			}else {
+				alert("주문취소 실패");
+			}
+			fn_orderSituationList();
+			
+		}
+		fn_callAjax("orderCancel.do","post",false,param,"json", cancelCallback);
+	}
+	
+
+	
+	
 </script>
 </head>
 <body>
-<input type="hidden" val="${order_shipping_yn}"/>
+<input type="hidden" value="${order_shipping_yn}" id="order_shipping_yn"/>
 <div class="container" >
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
@@ -42,10 +64,11 @@
 		    <thead>
 		      <tr>
 		        <th>주문번호</th>
-		        <th>제품번호</th>
-		        <th>제품명</th>
-		        <th>제품가격</th>
-		        <th>작성일자</th>
+		        <th>주문가격</th>
+		        <th>주문일자</th>
+		        <th>배송상태</th>
+		        <th>취소신청</th>
+		        <th>주문상세</th>
 		      </tr>
 		    </thead>
 		    <tbody id="order_tbody"></tbody>

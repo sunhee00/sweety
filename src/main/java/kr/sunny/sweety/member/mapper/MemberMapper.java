@@ -25,9 +25,12 @@ public interface MemberMapper {
 	//마이페이지 폼
 	public MyInfoModel myPageInfo(String user_id);
 	
-	//마이페이지 폼
+	//마이페이지 주문상태
 	public List<OrderModel> orderSituation(Map<String, Object> paramMap);
 	
-	//마이페이지 폼
+	//마이페이지 주문상태 카운트
 	public int countOrderSituation(Map<String, Object> paramMap);
+	
+	//주문상태 취소
+	public int orderCancel(Map<String, Object> paramMap);
 }

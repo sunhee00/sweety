@@ -62,9 +62,9 @@
 	<select id="orderSituation" resultType="kr.sunny.sweety.member.entity.OrderModel">
 		select od.order_no
 			  ,od.order_price
-			  ,od.order_cancle_yn
+			  ,od.order_cancel_yn
 			  ,od.order_date
-			  ,od.order_sipping_yn
+			  ,od.order_shipping_yn
 			  ,odd.product_no
 			  ,pd.product_name
 			  ,odd.order_detail_amt
@@ -72,21 +72,23 @@
 			from tb_order od
 				inner join tb_order_detail odd on od.order_no = odd.order_no
 				inner join tb_product pd on pd.product_no = odd.product_no
-			where od.user_id = #{user_id} and od.order_sipping_yn = #{order_shipping_yn} 
+			where od.user_id = #{user_id} and od.order_shipping_yn = #{order_shipping_yn} 
 			order by od.order_no desc, pd.product_no asc
 	</select>
 	
-	<!-- 주문 상태 조회 -->
+	<!-- 주문 상태 조회 count-->
 	<select id="countOrderSituation" resultType="int">
 		select count(*)
 			from tb_order od
 				inner join tb_order_detail odd on od.order_no = odd.order_no
 				inner join tb_product pd on pd.product_no = odd.product_no
-			where od.user_id = #{user_id} and od.order_sipping_yn = #{order_shipping_yn} 
+			where od.user_id = #{user_id} and od.order_shipping_yn = #{order_shipping_yn} 
 			order by od.order_no desc, pd.product_no asc
 	</select>
 	
-	
-	
+	<!-- 주문완료 취소 -->
+	<update id="orderCancel">
+		update tb_order order_cancel_yn = 'Y' where order_no = #{order_no}
+	</update>
 	
 </mapper>
