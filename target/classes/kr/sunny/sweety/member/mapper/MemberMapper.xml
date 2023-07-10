@@ -50,7 +50,7 @@
 			   user_addr,
 			   user_addr_detail,
 			   user_tel1,
-			   ser_tel2,
+			   user_tel2,
 			   user_tel3,
 			   user_date,
 			   user_birth
