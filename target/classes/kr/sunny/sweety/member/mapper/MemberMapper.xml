@@ -40,6 +40,65 @@
 		
 	</insert>
 	
+
+	
+	<!-- 주문 상태 조회 -->
+	<select id="orderSituation" resultType="kr.sunny.sweety.member.entity.OrderModel">
+		select od.order_no
+			  ,od.order_price
+			  ,od.order_date
+			  ,od.order_cancel_yn
+			  ,od.order_shipping_yn
+			from tb_order od
+			where od.user_id = #{user_id} and od.order_shipping_yn = #{order_shipping_yn} 
+			order by od.order_no desc
+	</select>
+	
+	<!-- 주문 상태 조회 count-->
+	<select id="countOrderSituation" resultType="int">
+		select count(*)
+			from tb_order od
+			where od.user_id = #{user_id} and od.order_shipping_yn = #{order_shipping_yn} 
+			order by od.order_no desc
+	</select>
+	
+	<!-- 주문완료 취소 -->
+	<update id="orderCancel">
+		update tb_order set order_cancel_yn = 'Y' where order_no = #{order_no}
+	</update>
+	
+		<!-- 주문 상태 상세 조회 -->
+	<select id="orderDetailSituation" resultType="kr.sunny.sweety.member.entity.OrderDetailModel">
+			select odd.product_no,
+				pd.product_name,
+				od.order_date,
+				odd.order_detail_amt,
+				odd.order_detail_price,
+				pd.product_file
+			from tb_order od
+				inner join tb_order_detail odd on odd.order_no = od.order_no
+				inner join tb_product pd on pd.product_no = odd.product_no
+			where odd.order_no = #{order_no}
+			order by pd.product_no desc
+	</select>
+	
+	<!-- 주문 상태 상세 조회 count-->
+	<select id="countOrderDetailSituation" resultType="int">
+			select count(*)
+			from tb_order od
+				inner join tb_order_detail odd on odd.order_no = od.order_no
+				inner join tb_product pd on pd.product_no = odd.product_no
+			where odd.order_no = #{order_no}
+			order by pd.product_no desc
+	</select>
+	
+	<!-- 마이페이지 주문상태 개수 표시 -->
+	<select id="countOrder" resultType="int">
+		select count(*)
+			from tb_order 
+		  where order_shipping_yn = #{order_shipping_yn}
+	</select>
+	
 	<!-- 마이페이지 정보 -->
 	<select id="myPageInfo" resultType="kr.sunny.sweety.member.entity.MyInfoModel">
 		select user_id,
@@ -58,37 +117,21 @@
 			where user_id = #{user_id}
 	</select>
 	
-	<!-- 주문 상태 조회 -->
-	<select id="orderSituation" resultType="kr.sunny.sweety.member.entity.OrderModel">
-		select od.order_no
-			  ,od.order_price
-			  ,od.order_cancel_yn
-			  ,od.order_date
-			  ,od.order_shipping_yn
-			  ,odd.product_no
-			  ,pd.product_name
-			  ,odd.order_detail_amt
-			  ,odd.order_detail_price
-			from tb_order od
-				inner join tb_order_detail odd on od.order_no = odd.order_no
-				inner join tb_product pd on pd.product_no = odd.product_no
-			where od.user_id = #{user_id} and od.order_shipping_yn = #{order_shipping_yn} 
-			order by od.order_no desc, pd.product_no asc
-	</select>
-	
-	<!-- 주문 상태 조회 count-->
-	<select id="countOrderSituation" resultType="int">
-		select count(*)
-			from tb_order od
-				inner join tb_order_detail odd on od.order_no = odd.order_no
-				inner join tb_product pd on pd.product_no = odd.product_no
-			where od.user_id = #{user_id} and od.order_shipping_yn = #{order_shipping_yn} 
-			order by od.order_no desc, pd.product_no asc
-	</select>
-	
-	<!-- 주문완료 취소 -->
-	<update id="orderCancel">
-		update tb_order order_cancel_yn = 'Y' where order_no = #{order_no}
+	<!-- 마이페이지 정보 업데이트 -->
+	<update id="myPageUpdate">
+		update tb_user set
+			user_id=#{user_id},
+				user_pw=#{user_pw},
+			   user_name=#{user_name},
+			   user_email=#{user_email},
+			   user_zip=#{user_zip},
+			   user_addr=#{user_addr},
+			   user_addr_detail=#{user_addr_detail},
+			   user_tel1=#{user_tel1},
+			   user_tel2=#{user_tel2},
+			   user_tel3=#{user_tel3},
+			   user_birth=#{user_birth}
+			 
+			where user_id = #{user_id}
 	</update>
-	
 </mapper>

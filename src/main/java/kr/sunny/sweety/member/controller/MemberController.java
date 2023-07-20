@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.sunny.sweety.member.entity.LoginModel;
 import kr.sunny.sweety.member.entity.MyInfoModel;
+import kr.sunny.sweety.member.entity.OrderDetailModel;
 import kr.sunny.sweety.member.entity.OrderModel;
 import kr.sunny.sweety.member.mapper.MemberMapper;
 import kr.sunny.sweety.notice.entity.NoticeModel;
@@ -110,7 +111,15 @@ public class MemberController {
 	@RequestMapping("myPage.do")
 	public String myPage(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
-
+		int od_com_count = memberMapper.countOrder("O");
+		int sp_du_count = memberMapper.countOrder("D");
+		int sp_com_count = memberMapper.countOrder("D");
+		
+		
+		model.addAttribute("od_com_count", od_com_count);
+		model.addAttribute("sp_du_count", sp_du_count);
+		model.addAttribute("sp_com_count", sp_com_count);
+		
 		return "member/myPage";
 
 	}
@@ -120,8 +129,8 @@ public class MemberController {
 	public String orderSituation(Model model, @RequestParam("order_shipping_yn") String order_shipping_yn,
 			HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr)
 			throws Exception {
-
-		model.addAttribute(order_shipping_yn);
+		
+		model.addAttribute("order_shipping_yn",order_shipping_yn);
 		return "member/myPageOrderSituation";
 
 	}
@@ -147,47 +156,65 @@ public class MemberController {
 	public int orderCancel(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
 		int cancelResult = memberMapper.orderCancel(paramMap);
-
 		return cancelResult;
 
 	}
 
+	// 마이페이지 배송상세
+	@RequestMapping("orderSituationDetail.do")
+	public String orderDetailSituation(Model model, @RequestParam Map<String, Object> paramMap,@RequestParam("order_no") int order_no,
+			@RequestParam("order_shipping_yn") String order_shipping_yn, HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr)
+			throws Exception {
+		
+		model.addAttribute("order_no", order_no);
+		model.addAttribute("order_shipping_yn", order_shipping_yn);
+		return "member/myPageOrderDetailSituation";
+
+	}
 	
-	  //마이페이지 배송상태 상세
+	// 마이페이지 배송상세리스트
+	@RequestMapping("orderDetailSituationList.do")
+	public String orderDetailSituationList(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr)
+			throws Exception {
+		List<OrderDetailModel> om = memberMapper.orderDetailSituation(paramMap);
+		int count = memberMapper.countOrderDetailSituation(paramMap);
+		model.addAttribute("om", om);
+		model.addAttribute("count", count);
+		return "member/myPageOrderSituationDetailGrd";
+
+	}
 	  
-	  @RequestMapping("orderSituationDetail.do") public String
-	  orderSituationDetail(Model model, @RequestParam("order_no") String order_no, HttpServletRequest request, HttpServletResponse response,
-	  HttpSession session, RedirectAttributes rttr) throws Exception {
+
 	  
-	  model.addAttribute(order_no); 
-	  return "member/myPageOomrderSituation";
-	  
-	  } 
-	  //마이페이지 배송상태별 상세리스트
-	  
-	  @RequestMapping("orderSituationDetailList.do")
-	  
-	  @ResponseBody public String orderSituationDetailList(Model
-	  model, @RequestParam Map<String, Object> paramMap, HttpServletRequest
-	  request, HttpServletResponse response, HttpSession session,
-	  RedirectAttributes rttr) throws Exception { String user_id = (String)
-	  session.getAttribute("user_id"); paramMap.put("user_id", user_id);
-	  List<OrderModel> om = memberMapper.orderSituation(paramMap);
-	  model.addAttribute(om); return "member/myPageOomrderSituationGrd";
-	  
-	  }
-	  
+	
 	  //마이페이지 폼
 	  
-	  @RequestMapping("myPageInfoForm.do") public MyInfoModel myPageInfo(Model
-	  model, @RequestParam Map<String, Object> paramMap, HttpServletRequest
-	  request, HttpServletResponse response, HttpSession session,
-	  RedirectAttributes rttr) throws Exception {
+	  @RequestMapping("myPageInfoForm.do") 
+	  public String myPageInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest
+			  	request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
 	  
-	  String user_id = (String) session.getAttribute("user_id"); MyInfoModel mim =
-	  memberMapper.myPageInfo(user_id); return mim;
+	  String user_id = (String) session.getAttribute("user_id"); 
+	  MyInfoModel mim = memberMapper.myPageInfo(user_id); 
+	  model.addAttribute("mim",mim);
+	  return "member/myPageInfoForm";
 	  
 	  }
+	  
+	// 마이페이지 회원정보 수정
+	@RequestMapping("myPageUpdate.do")
+	@ResponseBody
+	public int myPageUpdate(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr)
+			throws Exception {
+		String user_id = (String) session.getAttribute("user_id");
+		paramMap.put("user_id", user_id);
+		int updateCom = memberMapper.myPageUpdate(paramMap);
+		return updateCom;
+
+	}
+	  
+	  
 	 
 
 }

@@ -14,19 +14,36 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>내 정보</title>
 <script type="text/javascript">
+	//페이징 설정
+	var pageSize = 10; //한페이지당 게시글 수
+	var pageBlockSize = 5; //페이징 블록
+	
+
 	
 	$(function () {
+		
+		//리스트로딩
 		fn_orderSituationList();
+		
+	
 	});
 	
 	//주문목록 리스트
-	function fn_orderSituationList() {
+	function fn_orderSituationList(pagenum) {
+		pagenum = pagenum||1;
 		var param = {
 				order_shipping_yn : $("#order_shipping_yn").val()
+				
+				
 		}
 		var osListCallback = function (reval) {
 			console.log(reval);
 			$("#order_tbody").empty().append(reval);
+			
+			//pagination
+			var count = $("#count").val();
+			var pagination = fn_pagination(pageSize, pageBlockSize, count, pagenum, "fn_orderSituationList");
+			$("#pagination").empty().append(pagination);
 		}
 		fn_callAjax("orderSituationList.do","post",false,param,"text", osListCallback);
 	}
@@ -48,6 +65,8 @@
 		}
 		fn_callAjax("orderCancel.do","post",false,param,"json", cancelCallback);
 	}
+	
+	
 	
 
 	
@@ -75,7 +94,7 @@
 		 </table>
 </div>
 
-	<div class="paging_area"  id="empSamPagination"> </div>
+	<div class="paging_area"  id="pagination" style="text-align:center;"> </div>
 	
 </div>
 

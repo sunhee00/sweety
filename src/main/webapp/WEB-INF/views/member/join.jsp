@@ -25,6 +25,33 @@ input::-webkit-inner-spin-button {
 	var idOk = false;
 	var pwOk = false;
 	
+	
+	function fn_getZip() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('user_zip').value = data.zonecode;
+                document.getElementById("user_addr").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("user_addr_detail").focus();
+            }
+        }).open();
+    }
 	//input 공백체크
 	function fn_nullCheck() {
 		var user_id = $("#user_id").val().trim();
@@ -84,33 +111,7 @@ input::-webkit-inner-spin-button {
 		
 		fn_callAjax("memJoin.do","post",false,param,"json",joinCallback);
 	}
-	//우편번호 api
-	function fn_getZip() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('user_zip').value = data.zonecode;
-                document.getElementById("user_addr").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("user_addr_detail").focus();
-            }
-        }).open();
-    }
+	
 	
 	//아이디 중복체크
 	function fn_idCheck() {
@@ -176,7 +177,7 @@ input::-webkit-inner-spin-button {
 				<div class="input-group">
 				  <span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>
 				  <input id="user_pw_check" type="password" class="form-control" name="user_pw_check"  onkeyup="fn_pwCheck()" placeholder="비밀번호확인"/>
-				  <span id="pw_alert" class="form-control" name="pw_alert"></span>
+				  <span id="pw_alert" class="form-control" name="pw_alert" style="color:red;"></span>
 				</div>
 				<div class="input-group">
 				  <span class="input-group-addon">이름</span>

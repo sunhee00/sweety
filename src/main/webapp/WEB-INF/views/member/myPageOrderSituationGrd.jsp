@@ -26,7 +26,7 @@
 			</c:if>
 		<c:if test="${list.order_cancel_yn eq 'N'}">
 			<c:if test="${list.order_shipping_yn eq 'O'}">
-				<td><a href="javascript:fn_orderCancel(${order_no})">취소하기</a></td>
+				<td><a href="javascript:fn_orderCancel(${list.order_no})">취소하기</a></td>
 			</c:if>
 			<c:if test="${list.order_shipping_yn ne 'O'}">
 				<td>취소불가</td>
@@ -36,7 +36,7 @@
 				<td>취소완료</td>
 		</c:if>	
 			
-				<td><a href="${contextPath}/member/orderSituationDetail.do?order_no=${order_no}">상세보기</a></td>
+				<td><a class="btn btn_default" href="${contextPath}/member/orderSituationDetail.do?order_shipping_yn=${list.order_shipping_yn}&order_no=${list.order_no}">상세보기</a></td>
 			</tr>
 		</c:forEach>
 	</c:if>

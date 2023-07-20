@@ -20,7 +20,13 @@
 	});
 	
 	function fn_orderSituationDetailList() {
-		
+		var param = {
+				order_no: $("#order_no").val()
+		}
+		var listCallback = function (reval) {
+			$("#orderDetail_tbody").empty().append(reval);
+		}
+		fn_callAjax("orderDetailSituationList.do","post",false,param,"text", listCallback);
 	}
 	
 	
@@ -33,22 +39,24 @@
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="empSamList">
-		<table class="table table-hover">
-		    <thead>
+		<table class="table table-hover" >
+		    <thead style="text-align:center">
 		      <tr>
 		        <th>제품번호</th>
+		        <th>사진</th>
 		        <th>제품명</th>
 		        <th>주문날짜</th>
 		        <th>제품수량</th>
 		        <th>제품가격</th>
 		      </tr>
 		    </thead>
-		    <tbody id="order_tbody"></tbody>
+		    <tbody id="orderDetail_tbody"></tbody>
 		 </table>
+		 
 </div>
 
 	<div class="paging_area"  id="empSamPagination"> </div>
-	
+	<a href="${contextPath}/member/orderSituation.do?order_shipping_yn=${order_shipping_yn}" class="btn btn-info">뒤로가기</a>
 </div>
 
 
