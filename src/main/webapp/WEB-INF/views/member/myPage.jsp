@@ -152,11 +152,13 @@
 			  <a href="javascript:fn_goOdSitu('D')" class="btn btn-default"><div>배송중</div><div id="sp_du">${sp_du_count}</div></a>
 			  <a href="javascript:fn_goOdSitu('C')" class="btn btn-default"><div>배송완료</div><div id="sp_com">${sp_com_count}</div></a>
 			</div>
+			<a href="javascript:fn_myInfoUpdate()" class="btn btn-info">내 정보 수정</a>
+			<div id="myInfoArea" style="width:60%; margin:0 auto;"></div>
 		</div>
 		<div style="width:60%; margin:3% auto;">
-			<a href="javascript:fn_myInfoUpdate()" class="btn btn-info">내 정보 수정</a>
+			
 		</div>
-		<div id="myInfoArea" style="width:60%; margin:0 auto;"></div>
+		
 </div>
 
 

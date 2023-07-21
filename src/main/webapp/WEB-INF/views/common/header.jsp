@@ -13,9 +13,10 @@
 		      <a class="navbar-brand" href="${contextPath}">sweety</a>
 		    </div>
 		    <ul class="nav navbar-nav">
-		      <li class="active"><a href="#">과자</a></li>
-		      <li><a href="#">음료수</a></li>
-		      <li><a href="#">아이스크림</a></li>
+		      <li><a href="${contextPath}/product/product.do?product_cd=S">과자</a></li>
+		      <li><a href="${contextPath}/product/product.do?product_cd=D">음료수</a></li>
+		      <li><a href="${contextPath}/product/product.do?product_cd=I">아이스크림</a></li>
+		      <li><a href="${contextPath}/product/product.do?product_cd=C">사탕/초콜릿</a></li>
 		    </ul>
 		    <c:if test="${user_name eq null}">
 			    <ul class="nav navbar-nav navbar-right">
@@ -31,7 +32,7 @@
 			    	<li><a><span style="font-weight:900; color:blue;">${user_name}</span>님 환영합니다</a></li>
 			    	<li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>
 			      	<li><a href="${contextPath}/notice/notice.do"><span class="glyphicon glyphicon-blackboard"></span> Notice</a></li>
-					<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>장바구니</a></li>
+					<li><a href="${contextPath}/cart/cart.do"><span class="glyphicon glyphicon-shopping-cart"></span>장바구니</a></li>
 					<li><a href="${contextPath}/member/myPage.do"><span class="glyphicon glyphicon-user"></span>마이페이지</a></li>
 					<li><a href="${contextPath}/member/logout.do"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 			    </ul>

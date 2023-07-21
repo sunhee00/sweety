@@ -11,7 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
-<title>Insert title here</title>
+<title>공지사항</title>
 <script type="text/javascript">
 	//페이징 설정
 	var pageSize = 10; //한페이지당 게시글 수

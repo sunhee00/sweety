@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<title>내 정보</title>
+<title>주문 정보</title>
 <script type="text/javascript">
 	//페이징 설정
 	var pageSize = 10; //한페이지당 게시글 수
@@ -78,7 +78,7 @@
 <div class="container" >
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-	<div class="empSamList">
+	<div style="width:60%; margin:0 auto;">
 		<table class="table table-hover">
 		    <thead>
 		      <tr>
@@ -92,9 +92,10 @@
 		    </thead>
 		    <tbody id="order_tbody"></tbody>
 		 </table>
+		 <div class="paging_area"  id="pagination" style="text-align:center;"> </div>
 </div>
 
-	<div class="paging_area"  id="pagination" style="text-align:center;"> </div>
+	
 	
 </div>
 

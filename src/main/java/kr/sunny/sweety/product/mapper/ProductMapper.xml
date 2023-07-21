@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.sunny.sweety.product.mapper.ProductMapper"><!-- namespace:mapper.xml과 매핑될 mapper.java(인터페이스)를 의미-->
+	
+	<!-- 상품정보 -->
+	<select id="productList" resultType="kr.sunny.sweety.product.entity.ProductModel">
+		select product_no
+			  ,product_cd
+			  ,product_name
+			  ,product_price
+			  ,product_file
+			from tb_product
+			where product_cd=#{product_cd}
+		order by product_no desc
+		LIMIT #{pageindex}, #{pageSize} 
+	
+	</select>
+	<!-- 상품정보카운트 -->
+	<select id="countProductList" resultType="int">
+		select count(*)
+			from tb_product
+			where product_cd=#{product_cd}
+		order by product_no desc
+	
+	</select>
+	
+	<!-- 상품상세정보 -->
+	<select id="getDetail" resultType="kr.sunny.sweety.product.entity.ProductDetailModel">
+		select product_no,
+			   product_cd,
+			   product_name,
+			   product_price,
+			   product_memo,
+			   product_file
+			from tb_product
+		where product_no = #{product_no}
+	</select>
+	
+	
+	<!-- 장바구니 담기 전 확인 -->
+	<select id="checkCart" resultType="int">
+		select count(*) 
+			from tb_cart
+		where product_no = #{product_no}
+	</select>
+	
+	<!-- 장바구니에 이미 물건이 있으면 수량만 update -->
+	<update id="updateCart">
+		update tb_cart set cart_amt = cart_amt+#{pAmt} where product_no = #{product_no}
+	</update>
+	
+	<!-- 장바구니 담기 -->
+	<insert id="intoCart">
+		insert into tb_cart (
+			user_id,
+			product_no,
+			cart_amt
+		) values (
+			#{user_id},
+			#{product_no},
+			#{pAmt}
+		)
+	</insert>
+</mapper>

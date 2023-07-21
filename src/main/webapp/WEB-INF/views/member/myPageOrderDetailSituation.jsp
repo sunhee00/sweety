@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<title>내 정보</title>
+<title>주문 상세 정보</title>
 <script type="text/javascript">
 	
 	$(function () {
@@ -38,7 +38,7 @@
 <div class="container" >
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-	<div class="empSamList">
+	<div style="width:60%; margin:0 auto;">
 		<table class="table table-hover" >
 		    <thead style="text-align:center">
 		      <tr>
@@ -53,10 +53,11 @@
 		    <tbody id="orderDetail_tbody"></tbody>
 		 </table>
 		 
-</div>
+	
 
 	<div class="paging_area"  id="empSamPagination"> </div>
 	<a href="${contextPath}/member/orderSituation.do?order_shipping_yn=${order_shipping_yn}" class="btn btn-info">뒤로가기</a>
+	</div>
 </div>
 
 
