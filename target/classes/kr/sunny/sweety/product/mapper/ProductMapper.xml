@@ -46,7 +46,7 @@
 	
 	<!-- 장바구니에 이미 물건이 있으면 수량만 update -->
 	<update id="updateCart">
-		update tb_cart set cart_amt = cart_amt+#{pAmt} where product_no = #{product_no}
+		update tb_cart set cart_amt = cart_amt+#{pAmt}, cart_date = now() where product_no = #{product_no}
 	</update>
 	
 	<!-- 장바구니 담기 -->
@@ -54,11 +54,13 @@
 		insert into tb_cart (
 			user_id,
 			product_no,
-			cart_amt
+			cart_amt,
+			cart_date
 		) values (
 			#{user_id},
 			#{product_no},
-			#{pAmt}
+			#{pAmt},
+			now()
 		)
 	</insert>
 </mapper>

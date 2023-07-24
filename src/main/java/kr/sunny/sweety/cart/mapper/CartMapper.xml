@@ -12,7 +12,7 @@
 			from tb_cart ct
 				inner join tb_product pd on pd.product_no = ct.product_no
 			where ct.user_id = #{user_id}
-		order by product_no desc
+		order by cart_date desc
 		LIMIT #{pageindex}, #{pageSize} 
 	</select>
 	
@@ -20,7 +20,6 @@
 		select count(*)
 			from tb_cart
 			where user_id = #{user_id}
-		order by product_no desc
 	</select>
 	
 	<!-- 장바구니 품목 취소 -->

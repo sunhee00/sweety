@@ -24,6 +24,8 @@ https://www.springframework.org/schema/beans/spring-beans.xsd">
 	<mybatis-spring:scan base-package="kr.sunny.sweety.main.mapper"/>
 	<mybatis-spring:scan base-package="kr.sunny.sweety.product.mapper"/>
 	<mybatis-spring:scan base-package="kr.sunny.sweety.cart.mapper"/>
+	<mybatis-spring:scan base-package="kr.sunny.sweety.qna.mapper"/>
+	
 	<!-- BoardMapper interface의 구현클래스 생성
 	
 	SqlSessionFactoryBean(SQL을 실행하는 API) -->

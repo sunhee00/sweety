@@ -1,1 +1,1 @@
-select * from tb_product
+ALTER TABLE tb_cart ADD cart_date DATETIME NULL;

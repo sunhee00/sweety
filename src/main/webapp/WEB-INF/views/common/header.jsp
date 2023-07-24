@@ -20,7 +20,7 @@
 		    </ul>
 		    <c:if test="${user_name eq null}">
 			    <ul class="nav navbar-nav navbar-right">
-			    	<li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>
+			    	<li><a href="${contextPath}/qna/qna.do"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>
 			      	<li><a href="${contextPath}/notice/notice.do"><span class="glyphicon glyphicon-blackboard"></span> Notice</a></li>
 			      	<li><a href="${contextPath}/member/join.do"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
 			      	<li><a href="${contextPath}/member/login.do"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -30,7 +30,7 @@
 		    <c:if test="${user_name ne null}">
 			    <ul class="nav navbar-nav navbar-right">
 			    	<li><a><span style="font-weight:900; color:blue;">${user_name}</span>님 환영합니다</a></li>
-			    	<li><a href="#"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>
+			    	<li><a href="${contextPath}/qna/qna.do"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>
 			      	<li><a href="${contextPath}/notice/notice.do"><span class="glyphicon glyphicon-blackboard"></span> Notice</a></li>
 					<li><a href="${contextPath}/cart/cart.do"><span class="glyphicon glyphicon-shopping-cart"></span>장바구니</a></li>
 					<li><a href="${contextPath}/member/myPage.do"><span class="glyphicon glyphicon-user"></span>마이페이지</a></li>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.sunny.sweety.qna.mapper.QnaMapper"><!-- namespace:mapper.xml과 매핑될 mapper.java(인터페이스)를 의미-->
+	
+	<select id="qnaList" resultType="kr.sunny.sweety.qna.entity.QnaModel">
+		select qna_no
+			  ,qna_title
+			  ,user_id
+			  ,qna_date
+			  ,qna_lv
+			  ,qna_seq
+			from tb_qna_detail
+			order by qna_no desc, qna_lv asc, qna_seq asc
+			LIMIT #{pageindex}, #{pageSize} 
+	</select>
+	
+	<select id="countQnaList" resultType="int">
+		select count(*)
+			from tb_qna_detail
+	</select>
+	
+	<!-- insert to tb_qna -->
+	<select id="qnaInsertNo" resultType="int">
+		select ifnull((max(qna_no)+1),1) from tb_qna
+	</select>
+	
+	<insert id="qnaInsert">
+		insert into tb_qna
+			 (user_id
+			,qna_no
+			,qna_pw) values(
+					 #{user_id}
+					,#{qna_no}
+					,#{qna_pw}
+					
+			)
+	</insert>
+	
+	<insert id="qnaDetailInsert">
+		insert into tb_qna_detail
+			 (user_id
+			,qna_no
+			,qna_seq
+			,qna_lv
+			,qna_title
+			,qna_cont
+			,qna_date) values(
+					 #{user_id}
+					,#{qna_no}
+					,#{qna_seq}
+					,#{qna_lv}
+					,#{qna_title}
+					,#{qna_cont}
+					,now()
+					
+			)
+	</insert>
+	
+</mapper>

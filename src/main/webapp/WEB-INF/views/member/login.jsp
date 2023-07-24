@@ -28,14 +28,14 @@
 		if(user_id == null || user_pw == null || user_id == "" || user_pw == "") {
 			alert("아이디랑 비번을 입력해주세요.");
 		}else {
-			loginCheck(user_id, user_pw);
+			loginCheck();
 		}
 		
 	}
 	
 	
 	//로그인체크
-	function loginCheck(user_id, user_pw) {
+	function loginCheck() {
 		document.form1.action= "${contextPath}/member/loginCheck.do";
 		document.form1.submit(); //제출
 	}

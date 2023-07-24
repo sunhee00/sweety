@@ -43,7 +43,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("noticeList.do")
-	public String salManagementList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	public String noticeList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session) throws Exception {
 	      
 	      int pagenum = Integer.parseInt((String) paramMap.get("pageNum"));

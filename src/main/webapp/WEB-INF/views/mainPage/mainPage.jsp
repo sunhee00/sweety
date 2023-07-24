@@ -16,7 +16,6 @@
 		box-sizing: border-box;
 	}
 	.items {
-	 	flex: 1;
 	 	text-align:center;
 	 	border:solid;
 	}
@@ -31,6 +30,7 @@
 		fn_mainProduct();
 	});
 	
+	//메인페이지 제품리스트
 	function fn_mainProduct() {
 		var param = {};
 		var listCallback = function (reval) {
@@ -66,7 +66,7 @@
 	<%-- header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
 		<h2 style="width:60%; margin:30px auto;">신제품</h2>
-		<div id="productArea" style="width:60%; margin:0 auto; display:flex;"></div>
+		<div id="productArea" style="width:60%; margin:0 auto; display:grid; grid-template-columns: 1fr 1fr 1fr""></div>
 		
 		
 	</div>

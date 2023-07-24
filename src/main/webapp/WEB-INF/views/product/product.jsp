@@ -12,6 +12,22 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/resources/js/common.js"></script>
 <title>상품정보</title>
+<style>
+	* {
+		box-sizing: border-box;
+	}
+	.items {
+	 	
+	 	text-align:center;
+	 	border:solid;
+	}
+	.itemAttr {
+	
+		margin:auto 0;
+	}
+	
+	
+</style>
 <script type="text/javascript">
 	//페이징 설정
 	var pageSize = 9; //한페이지당 게시글 수
@@ -47,6 +63,7 @@
 					//한 행당 시작과 끝의 index번호
 					var sIndex = i*rowMax;
 					var eIndex = sIndex+rowMax;
+					//pl의 index길이보다 eIndex가 길면 eIndex를 pl의 마지막 index로 초기화
 					eIndex = eIndex>pl.length-1?pl.length:eIndex;
 					for(var j=sIndex; j<eIndex; j++) {
 						productHtml+="<input type='hidden' class='product_no' value='"+pl[j].product_no+"'/>";
@@ -89,7 +106,7 @@
 			<c:if test="${product_cd eq 'D'}">음료수</c:if>
 			<c:if test="${product_cd eq 'I'}">아이스크림</c:if>
 		</h2>
-		<div id="productArea" style="width:60%; margin:0 auto; display:flex;"></div>
+		<div id="productArea" style="width:60%; margin:0 auto; display:grid; grid-template-columns: 1fr 1fr 1fr"></div>
   </div>
 	
 </body>
