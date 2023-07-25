@@ -16,31 +16,59 @@
 	
 	//onload
 	$(function () {
-		
+		fn_replyList();
 	});
 	
-	//qnalist 뿌려주기
-	function fn_qnaList(pagenum) {
-		
-		pagenum = pagenum || 1;
-		
+	function fn_replyList() {
 		var param = {
-				pageSize : pageSize,
-				pageBlockSize : pageBlockSize,
-				pageNum : pagenum
+			qna_no: $("#qna_no").val()
 		}
-		var qnaListCallback = function (reval) {
-			$("#qna_tbody").empty().append(reval);
-			var count = $("#count").val();
-			var pagination = fn_pagination(pageSize, pageBlockSize, count, pagenum, "fn_qnaList");
-			console.log(pageSize+","+ pageBlockSize+","+  count+","+  pagenum)
-			$("#pagination").empty().append(pagination);
+		var replyListCallback = function (reval) {
+			console.log(reval);
+			$("#replyBody").empty().append(reval);
+
+			
 		}
-		fn_callAjax("qnaList.do","post",false,param,"text",qnaListCallback);
+		fn_callAjax("qnaReply.do","post",false,param,"text",replyListCallback);
+	}
+	
+	//qna게시글 update
+	function fn_goUpdate() {
+		document.form1.action = "${contextPath}/qna/qnaWrite.do";
+		document.form1.submit();
 		
 	}
 	
+	//qna 답변 insert
+	function fn_qnaReplyInsert() {
+		var param = {
+				qna_title :$("#qna_reply_title").val(),
+				qna_cont :$("#qna_reply_cont").val(),
+				qna_lv :$("#qna_reply_lv").val(),
+				qna_no : $("#qna_no").val()
+				
+		}
 		
+		var replyListCallback = function (reval) {
+			
+			var check = true;
+			for(var i in reval) {
+				if(reval[i] == 0) {
+					check = false;
+					break;
+				}
+			}
+			
+			if(check) {
+				alert("답변이 등록되었습니다.");
+				fn_replyList();
+			}
+				
+			
+			
+		}
+		fn_callAjax("qnaReplyInsert.do","post",false,param,"json",replyListCallback);
+	}
 
 
 	
@@ -53,23 +81,47 @@
 	<div class="container">
 	<%--header삽입 --%>
 	<jsp:include page="../common/header.jsp"></jsp:include>
-		<h2>Q&A 작성하기</h2>
-		<form>
-		  <div class="form-group">
-		    <label for="user_id">아이디:</label>
-		    <input type="text" class="form-control" id="user_id">
-		    <label for="user_id">아이디:</label>
-		    <input type="text" class="form-control" id="user_id">
-		  </div>
-		  <div class="form-group">
-		    <label for="qna_title">제목:</label>
-		    <input type="text" class="form-control" id="qna_title">
-		  </div>
-		  <div class="form-group">
-		    <label for="pwd">Password:</label>
-		    <input type="password" class="form-control" id="pwd">
-		  </div>
-		</form>
+		<div style="width:60%; margin:0 auto;">
+			<form name="form1" method="post">
+			  <div>
+			    <div><p id="qna_title">제목: ${qnaDetail.qna_title}</p></div>
+			    <div><p><span>${qnaDetail.qna_no}</span><span id="user_id">작성자: ${qnaDetail.user_id}</span></p><p><span id="qna_date" name="qna_date">작성날짜: ${qnaDetail.qna_date}</span></p></div>
+			    <div><p id="qna_cont" name="qna_cont">${qnaDetail.qna_cont}</p></div>
+			    <div>
+			    <c:if test="${user_id eq qnaDetail.user_id}">
+			    	<a class="btn btn-info" href="javascript:fn_goUpdate()">수정하기</a>
+			    </c:if>
+			    	<a class="btn btn-info" href="${contextPath}/qna/qna.do">뒤로가기</a>
+			    </div>
+			    <input type="hidden" value="${qnaDetail.qna_no}" id="qna_no" name="qna_no">
+			  </div>
+			</form>
+			
+			<div id="replyContainer" style="width:80%; margin:0;">
+				<div id="replyBody"></div>
+				
+				<c:if test="${user_id eq 'admin' || user_id eq qnaDetail.user_id}">
+				<div id="replyInput" style="border:solid;">
+					<form name="form2" method="post" >
+						<div class="form-group">
+						  <label for="qna_reply_title">제목:</label>
+						  <input type="text" class="form-control" id="qna_reply_title" name="qna_reply_title" maxlength='50'  placeholder="제목을 입력해주세요.(50자까지)">
+						</div>
+						<div class="form-group">
+						  <label for="qna_reply_cont">내용:</label>
+						  <textarea class="form-control" id="qna_reply_cont"  name="qna_reply_cont"  maxlength='100' placeholder="내용을 입력해주세요.(100자까지)"></textarea>
+						  <p id="remain_cont"></p>
+						</div>
+					
+						<input type="hidden" value="2" id="qna_reply_lv" name="qna_reply_lv">
+						<a class="btn btn-info" href="javascript:fn_qnaReplyInsert()">등록하기</a>
+						<a class="btn btn-warning" href="javascript:fn_replyInit()">내용 초기화</a>
+					</form>
+				</div>
+				</c:if>
+				
+			</div>
+		</div>
   	</div>
 	
 </body>

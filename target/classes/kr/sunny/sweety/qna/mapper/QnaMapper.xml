@@ -56,4 +56,51 @@
 			)
 	</insert>
 	
+	<!-- 기존 qna 게시글 update -->
+	<update id="qnaUpdate">
+		update tb_qna set 
+			qna_pw=#{qna_pw}
+		where qna_no = #{qna_no}
+	</update>
+	<update id="qnaDetailUpdate">
+		update tb_qna_detail set 
+			qna_title = #{qna_title},
+			qna_cont = #{qna_cont},
+			qna_date = now()
+		where qna_no = #{qna_no}
+	</update>
+	
+	<!-- qna게시글 상세조회 -->
+	<select id="getQnaDetail" resultType="kr.sunny.sweety.qna.entity.QnaModel">
+		select user_id
+			  ,qna_no
+			  ,qna_title
+			  ,qna_cont
+			  ,qna_date
+			from tb_qna_detail 
+		where qna_no = #{qna_no} and qna_lv = #{qna_lv} and qna_seq = #{qna_seq}
+	</select>
+	
+	<!-- qna 게시글 답변 리스트 -->
+	<select id="getQnaReply" resultType="kr.sunny.sweety.qna.entity.QnaModel">
+		select qna_seq
+			  ,qna_title
+			  ,qna_no
+			  ,qna_cont
+			  ,user_id
+			  ,qna_date
+			from tb_qna_detail
+		where qna_no = #{qna_no} and qna_lv = 2
+		order by qna_seq asc
+	</select>
+	
+	<!-- qna 게시글 답변 순서 불러오기 -->
+	<select id="getQnaSeq" resultType="int">
+		select MAX(qna_seq)+1 from tb_qna_detail where qna_no = #{qna_no}
+	</select>
+	
+	<!-- qna reply 개수 가져오기 -->
+	<select id="getQnaReplyCount" resultType="int">
+		select count(*) from tb_qna_detail where qna_no = #{qna_no} and qna_lv = 2
+	</select>
 </mapper>

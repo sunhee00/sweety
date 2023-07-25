@@ -21,4 +21,15 @@ public interface QnaMapper {
 	public int qnaInsertNo(Map<String, Object> paramMap);
 	public int qnaInsert(Map<String, Object> paramMap);
 	public int qnaDetailInsert(Map<String, Object> paramMap);
+	public int qnaUpdate(Map<String, Object> paramMap);
+	public int qnaDetailUpdate(Map<String, Object> paramMap);
+	//qna 게시글 상세조회
+	public QnaModel getQnaDetail(Map<String, Object> paramMap);
+	//qna 답글 불러오기
+	public List<QnaModel> getQnaReply(Map<String, Object> paramMap);
+	
+	//qna 답글 번호(qna_seq) 불러오기
+	public int getQnaSeq(Map<String, Object> paramMap);
+	//reply 개수 가져오기
+	public int getQnaReplyCount(Map<String, Object> paramMap);
 }

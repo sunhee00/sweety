@@ -2,6 +2,7 @@ package kr.sunny.sweety.qna.controller;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -69,7 +71,7 @@ public class QnaController {
 	   }
 	
 	@RequestMapping("qnaWrite.do")
-	public String qnaWrite(Model model, @RequestParam Map<String, Object> paramMap, @RequestParam("qna_lv") int qna_lv, HttpServletRequest request,
+	public String qnaWrite(Model model, @RequestParam Map<String, Object> paramMap,HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
 	
 		String user_id = (String) session.getAttribute("user_id");
@@ -77,8 +79,15 @@ public class QnaController {
 			rttr.addFlashAttribute("msg", true);
 			return "redirect:qna.do";
 		}
+		
+		//qnaDetail.jsp에서 수정하기 누를 시.
+		
+		if(paramMap != null) {
+			QnaModel qnaDetail = qnaMapper.getQnaDetail(paramMap);
+			model.addAttribute("qnaDetail", qnaDetail);
+		}
+		
 		model.addAttribute("user_id", user_id);
-		model.addAttribute("qna_lv", qna_lv);
 	     
 	      return "qna/qnaWrite";
 	  }
@@ -87,17 +96,89 @@ public class QnaController {
 	@RequestMapping("qnaInsert.do")
 	public String qnaInsert(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		String qnaType = (String)paramMap.get("qnaType");
 		String user_id = (String) session.getAttribute("user_id");
 		paramMap.put("user_id", user_id);
-		int qna_no = qnaMapper.qnaInsertNo(paramMap);
-		paramMap.put("qna_no", qna_no);
 		
-		int qnaIns = qnaMapper.qnaInsert(paramMap);
-		int qnaDetailIns = qnaMapper.qnaDetailInsert(paramMap);
+		//tb_qna insert반환값
+		int qnaIns = 0;
+		//tb_qna_detail insert반환값
+		int qnaDetailIns = 0;
+		System.out.println(qnaType);
+		//새 qna게시글 insert
+		if(qnaType.equals("I")) {
+			int qna_no = qnaMapper.qnaInsertNo(paramMap);
+			paramMap.put("qna_no", qna_no);
+			qnaIns = qnaMapper.qnaInsert(paramMap);
+			qnaDetailIns = qnaMapper.qnaDetailInsert(paramMap);
+		}
+		//기존 qna게시글 update
+		if(qnaType.equals("U")){
+			qnaIns = qnaMapper.qnaUpdate(paramMap);
+			qnaDetailIns = qnaMapper.qnaDetailUpdate(paramMap);
+		}
+		
+		
+		
+		
 		if(qnaIns >0 && qnaDetailIns > 0) {
 			return "redirect:qna.do";
 		}
 		return "redirect:qnaWrite.do";
 	}
+	
+	
+	@RequestMapping("qnaDetail.do")
+	public String qnaDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		String user_id = (String) session.getAttribute("user_id");
+		
+		QnaModel qnaDetail = qnaMapper.getQnaDetail(paramMap);
+		System.out.println(paramMap.get("qna_lv"));
+		model.addAttribute("user_id",user_id);
+		model.addAttribute("qnaDetail", qnaDetail);
+	     
+	      return "qna/qnaDetail";
+	  }
+	
+	//qna답변
+	@RequestMapping("qnaReply.do")
+	public String qnaReply(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		
+		List<QnaModel> qnaReply = qnaMapper.getQnaReply(paramMap);
+		String user_id = (String) session.getAttribute("user_id");
+		int count = qnaMapper.getQnaReplyCount(paramMap);
+		
+		model.addAttribute("qnaReply", qnaReply);
+		model.addAttribute("user_id",user_id);
+		model.addAttribute("count",count);
+	      return "qna/qnaReplyGrd";
+	  }
+	
+	@RequestMapping("qnaReplyInsert.do")
+	@ResponseBody
+	public List<Integer> qnaReplyInsert(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		String user_id = (String) session.getAttribute("user_id");
+		
+		paramMap.put("user_id", user_id);
+		
+		
+		int qna_seq = qnaMapper.getQnaSeq(paramMap);
+		paramMap.put("qna_seq", qna_seq);
+		System.out.println(qna_seq + "qna");
+		int qnaReplyInsertDetail = qnaMapper.qnaDetailInsert(paramMap);
+		
+		
+		List<Integer> replyList = new ArrayList<>();
+		
+		replyList.add(qnaReplyInsertDetail);
+		
+		
+		
+	
+	      return replyList;
+	  }
 }
 

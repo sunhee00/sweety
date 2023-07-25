@@ -24,7 +24,7 @@
 		
 	});
 	
-	//noticelist 뿌려주기
+	//cart 리스트 뿌려주기
 	function fn_cartList(pagenum) {
 		
 		pagenum = pagenum || 1;

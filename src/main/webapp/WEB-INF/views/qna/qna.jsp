@@ -48,6 +48,43 @@
 		
 	}
 	
+	function fn_goQnaDetail(qnaNo,qnaLv,qnaSeq) {
+		
+		var qna_no;
+		var qna_lv;
+		var qna_seq;
+		var f = document.createElement('form');
+	    
+		
+		
+		
+			
+		qna_no = document.createElement('input');
+		qna_no.setAttribute('type', 'hidden');
+		qna_no.setAttribute('name', 'qna_no');
+		qna_no.setAttribute('value', qnaNo);
+		f.appendChild(qna_no);
+		
+		qna_lv = document.createElement('input');
+		qna_lv.setAttribute('type', 'hidden');
+		qna_lv.setAttribute('name', 'qna_lv');
+		qna_lv.setAttribute('value', qnaLv);
+		f.appendChild(qna_lv);
+		
+		qna_seq = document.createElement('input');
+		qna_seq.setAttribute('type', 'hidden');
+		qna_seq.setAttribute('name', 'qna_seq');
+		qna_seq.setAttribute('value', qnaSeq);
+		f.appendChild(qna_seq);
+		
+	    
+	    
+	    f.setAttribute('method', 'post');
+	   	f.setAttribute('action', '${contextPath}/qna/qnaDetail.do');
+	    document.body.appendChild(f);
+	    f.submit();
+	}
+	
 		
 
 
@@ -66,7 +103,7 @@
 	    <div class="panel-body" id="view">Panel Content</div>
 	    <div class="panel-body" id="wform" tyle="display:none">
 			  <h2>Q&A</h2>
-			  <p style="text-align:right;"><a class="btn btn-warning" href="${contextPath}/qna/qnaWrite.do?qna_lv=1">문의하기: <span class="glyphicon glyphicon-pencil"></span></a></p>            
+			  <p style="text-align:right;"><a class="btn btn-warning" href="${contextPath}/qna/qnaWrite.do">문의하기: <span class="glyphicon glyphicon-pencil"></span></a></p>            
 			  <table class="table table-hover">
 			    <thead>
 			      <tr>

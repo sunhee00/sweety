@@ -7,6 +7,7 @@ public class QnaModel {
 	private int qna_no;
 	private String qna_title;
 	private String user_id;
+	private String qna_cont;
 	private String qna_date;
 	private int qna_seq;
 	private int qna_lv;

@@ -1,1 +1,1 @@
-ALTER TABLE tb_cart ADD cart_date DATETIME NULL;
+select * from tb_qna_detail

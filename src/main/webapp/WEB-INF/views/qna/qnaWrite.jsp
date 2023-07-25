@@ -19,9 +19,13 @@
 		
 	});
 	
-	
+	//qna insert
 	function fn_qnaInsert() {
+		var qna_no = $("#qna_no").val();
 		
+		var qt = 'I';
+		
+
 		//qna패스워드 일치 체크
 		if(!fn_pwCheck()) {
 			alert("비밀번호가 서로 일치하지 않습니다.");
@@ -33,7 +37,20 @@
 			alert("항목을 전부 채워주세요");
 			return;
 		}
+		//기존에 작성된 글 수정시에
+		if(qna_no != "") {
+			qt = "U";
+		}
 		
+		//새 게시글 insert인지 기존 게시글 update인지 구분
+		var qnaType;
+		qnaType = document.createElement('input');
+		qnaType.setAttribute('type', 'hidden');
+		qnaType.setAttribute('name', 'qnaType');
+		qnaType.setAttribute('value', qt);
+		
+		document.form1.appendChild(qnaType);
+
 		document.form1.action= "${contextPath}/qna/qnaInsert.do";
 		document.form1.submit(); //제출
 	}
@@ -56,7 +73,6 @@
 
 	//비밀번호 확인
 	function fn_pwCheck(){
-		
   		var qna_pw = $("#qna_pw").val();
   		var qna_pw_chk = $("#qna_pw_chk").val();
 		if(qna_pw != qna_pw_chk) {
@@ -83,11 +99,11 @@
 		<form name="form1" method="post" action="">
 		  <div class="form-group">
 		    <label for="qna_title">제목:</label>
-		    <input type="text" class="form-control" id="qna_title" name="qna_title"  maxlength='50'  placeholder="제목을 입력해주세요.(50자까지)">
+		    <input type="text" class="form-control" id="qna_title" name="qna_title"  value="${qnaDetail.qna_title}" maxlength='50'  placeholder="제목을 입력해주세요.(50자까지)">
 		  </div>
 		  <div class="form-group">
 		    <label for="qna_cont">내용:</label>
-		    <textarea class="form-control" id="qna_cont"  name="qna_cont" maxlength='100' placeholder="내용을 입력해주세요.(100자까지)"></textarea>
+		    <textarea class="form-control" id="qna_cont"  name="qna_cont"  maxlength='100' placeholder="내용을 입력해주세요.(100자까지)">${qnaDetail.qna_cont}</textarea>
 		    <p id="remain_cont"></p>
 		  </div>
 		  <div class="form-group">
@@ -99,7 +115,8 @@
 		    <input type="password" class="form-control" id="qna_pw_chk" name="qna_pw_chk" onkeyup="fn_pwCheck()" placeholder="게시글 비밀번호 체크">
 		    <p id="pwChkArea"></p>
 		  </div>
-		  <input type="hidden" value="${qna_lv}" id="qna_lv" name="qna_lv">
+		  <input type="hidden" value="${qnaDetail.qna_no}" id="qna_no" name="qna_no">
+		  <input type="hidden" value="1" id="qna_lv" name="qna_lv">
 		  <input type="hidden" value="1" id="qna_seq" name="qna_seq">
 		</form>
 		<a class="btn btn-info" href="javascript:fn_qnaInsert()">등록하기</a>
