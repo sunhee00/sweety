@@ -7,7 +7,7 @@
 </c:if>
 <c:if test="${totalcnt > 0}">
 	<c:forEach items="${noticeList}" var="list">
-		<tr>
+		<tr onclick="fn_goNoticeDetail(${list.notice_no})">
 		  <td>${list.notice_no}</td>
 	      <td>${list.notice_title}</td>
 	      <td>${list.notice_cont}</td>

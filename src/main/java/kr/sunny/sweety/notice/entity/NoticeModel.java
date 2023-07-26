@@ -10,5 +10,6 @@ public class NoticeModel {
 	private String notice_writer;
 	private String notice_del_yn;
 	private String notice_date;
+	private String user_id;
 }
 

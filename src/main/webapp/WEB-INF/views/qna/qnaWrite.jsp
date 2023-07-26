@@ -38,7 +38,7 @@
 			return;
 		}
 		//기존에 작성된 글 수정시에
-		if(qna_no != "") {
+		if(qna_no != "" && qna_no != null) {
 			qt = "U";
 		}
 		

@@ -19,6 +19,7 @@
 		fn_replyList();
 	});
 	
+	//답글 리스트
 	function fn_replyList() {
 		var param = {
 			qna_no: $("#qna_no").val()
@@ -38,6 +39,7 @@
 		document.form1.submit();
 		
 	}
+
 	
 	//qna 답변 insert
 	function fn_qnaReplyInsert() {
@@ -94,6 +96,8 @@
 			    	<a class="btn btn-info" href="${contextPath}/qna/qna.do">뒤로가기</a>
 			    </div>
 			    <input type="hidden" value="${qnaDetail.qna_no}" id="qna_no" name="qna_no">
+			    <input type="hidden" value="1" id="qna_lv" name="qna_lv">
+			    <input type="hidden" value="1" id="qna_seq" name="qna_seq">
 			  </div>
 			</form>
 			
@@ -112,10 +116,9 @@
 						  <textarea class="form-control" id="qna_reply_cont"  name="qna_reply_cont"  maxlength='100' placeholder="내용을 입력해주세요.(100자까지)"></textarea>
 						  <p id="remain_cont"></p>
 						</div>
-					
+						
 						<input type="hidden" value="2" id="qna_reply_lv" name="qna_reply_lv">
 						<a class="btn btn-info" href="javascript:fn_qnaReplyInsert()">등록하기</a>
-						<a class="btn btn-warning" href="javascript:fn_replyInit()">내용 초기화</a>
 					</form>
 				</div>
 				</c:if>

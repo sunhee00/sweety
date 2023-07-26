@@ -1,1 +1,1 @@
-select * from tb_qna_detail
+select MAX(qna_seq)+1 from tb_qna_detail where qna_no = 8

@@ -32,4 +32,7 @@ public interface QnaMapper {
 	public int getQnaSeq(Map<String, Object> paramMap);
 	//reply 개수 가져오기
 	public int getQnaReplyCount(Map<String, Object> paramMap);
+	
+	//reply 개수 가져오기
+	public int qnaDelete(Map<String, Object> paramMap);
 }

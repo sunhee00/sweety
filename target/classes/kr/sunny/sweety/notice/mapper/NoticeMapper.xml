@@ -10,6 +10,7 @@
 			  ,notice_del_yn
 			  ,notice_date
 			from tb_notice
+		where notice_del_yn = 'N'
 			order by notice_no desc
 			LIMIT #{pageindex}, #{pageSize} 
 	</select>
@@ -17,6 +18,57 @@
 	<select id="countNoticeList" resultType="int">
 		select count(*)
 			from tb_notice 
+		where notice_del_yn = 'N'
 	</select>
 	
+	<select id="getNoticeDetail" resultType="kr.sunny.sweety.notice.entity.NoticeModel">
+		select notice_no
+			  ,notice_title
+			  ,notice_cont
+			  ,notice_writer
+			  ,notice_del_yn
+			  ,notice_date
+			from tb_notice 
+		where notice_no = #{notice_no}
+	</select>
+	
+	<!-- insert to tb_notice -->
+	<select id="noticeInsertNo" resultType="int">
+		select ifnull((max(notice_no)+1),1) from tb_notice
+	</select>
+	
+	<insert id="noticeInsert">
+		insert into tb_notice
+			 (notice_no
+			  ,notice_title
+			  ,notice_cont
+			  ,notice_writer
+			  ,notice_del_yn
+			  ,notice_date) values(
+					 #{notice_no}
+					,#{notice_title}
+					,#{notice_cont}
+					,#{notice_writer}
+					,'N'
+					,now()
+					
+			)
+	</insert>
+	
+	<!-- update to tb_notice -->
+	<update id="noticeUpdate">
+		update tb_notice set 
+			   notice_title = #{notice_title}
+			  ,notice_cont = #{notice_cont}
+			  ,notice_writer = #{notice_writer}
+			  ,notice_date = now()
+		where notice_no = #{notice_no} 
+	</update>
+	
+	<!-- delete to tb_notice -->
+	<update id="noticeDelete">
+		update tb_notice set 
+			   notice_del_yn = 'Y'
+		where notice_no = #{notice_no} 
+	</update>
 </mapper>

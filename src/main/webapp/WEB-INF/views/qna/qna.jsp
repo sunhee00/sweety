@@ -21,11 +21,28 @@
 	//onload
 	$(function () {
 		fn_qnaList();
-		var msg = $("#msg").val();
-		if(msg) {
-			alert("로그인 후 문의 가능합니다.");
-		}
+		fn_delCheck();
 	});
+	
+	//게시글 상태 확인
+	function fn_delCheck() {
+		var msg = $("#msg").val();
+		switch(msg){
+			
+			case 'U':
+				alert('게시글 수정완료');
+				break;
+			case 'I':
+				alert('게시글 작성완료');
+				break;
+			case 'L':
+				alert('로그인 후 문의해주세요');
+				break;
+			case 'CI':
+				alert('게시글 등록/수정 실패');
+				break;
+		}
+	}
 	
 	//qnalist 뿌려주기
 	function fn_qnaList(pagenum) {

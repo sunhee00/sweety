@@ -73,18 +73,23 @@ public class QnaController {
 	@RequestMapping("qnaWrite.do")
 	public String qnaWrite(Model model, @RequestParam Map<String, Object> paramMap,HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
-	
+		String msg = "";
+		QnaModel qnaDetail = null;
+		
 		String user_id = (String) session.getAttribute("user_id");
 		if(user_id == null || user_id.equals("")) {
-			rttr.addFlashAttribute("msg", true);
+			msg = "L";
+			rttr.addFlashAttribute("msg", msg);
 			return "redirect:qna.do";
 		}
 		
 		//qnaDetail.jsp에서 수정하기 누를 시.
-		
-		if(paramMap != null) {
-			QnaModel qnaDetail = qnaMapper.getQnaDetail(paramMap);
+		System.out.println(paramMap);
+		if(!paramMap.isEmpty() && paramMap != null) {
+			
+			qnaDetail = qnaMapper.getQnaDetail(paramMap);
 			model.addAttribute("qnaDetail", qnaDetail);
+			System.out.println(qnaDetail);
 		}
 		
 		model.addAttribute("user_id", user_id);
@@ -96,15 +101,30 @@ public class QnaController {
 	@RequestMapping("qnaInsert.do")
 	public String qnaInsert(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		System.out.println(paramMap);
+		
+		
+		//경로 직접쳐서 들어왔을 때
+		if(paramMap.isEmpty()) {
+			return "redirect:qnaWrite.do";
+		}
+		
+		
+		
 		String qnaType = (String)paramMap.get("qnaType");
 		String user_id = (String) session.getAttribute("user_id");
+		
+		//redirect msg
+		String msg = qnaType;
+		
 		paramMap.put("user_id", user_id);
 		
 		//tb_qna insert반환값
 		int qnaIns = 0;
+		
 		//tb_qna_detail insert반환값
 		int qnaDetailIns = 0;
-		System.out.println(qnaType);
+		
 		//새 qna게시글 insert
 		if(qnaType.equals("I")) {
 			int qna_no = qnaMapper.qnaInsertNo(paramMap);
@@ -112,6 +132,7 @@ public class QnaController {
 			qnaIns = qnaMapper.qnaInsert(paramMap);
 			qnaDetailIns = qnaMapper.qnaDetailInsert(paramMap);
 		}
+		
 		//기존 qna게시글 update
 		if(qnaType.equals("U")){
 			qnaIns = qnaMapper.qnaUpdate(paramMap);
@@ -119,11 +140,14 @@ public class QnaController {
 		}
 		
 		
-		
+		rttr.addFlashAttribute("msg", msg);
 		
 		if(qnaIns >0 && qnaDetailIns > 0) {
+			
 			return "redirect:qna.do";
 		}
+		
+		rttr.addFlashAttribute("msg", "CI");
 		return "redirect:qnaWrite.do";
 	}
 	
@@ -156,6 +180,7 @@ public class QnaController {
 	      return "qna/qnaReplyGrd";
 	  }
 	
+	//답글등록
 	@RequestMapping("qnaReplyInsert.do")
 	@ResponseBody
 	public List<Integer> qnaReplyInsert(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -180,5 +205,7 @@ public class QnaController {
 	
 	      return replyList;
 	  }
+	
+	
 }
 
