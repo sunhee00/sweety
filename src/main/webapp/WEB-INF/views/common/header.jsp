@@ -18,7 +18,7 @@
 		      <li><a href="${contextPath}/product/product.do?product_cd=I">아이스크림</a></li>
 		      <li><a href="${contextPath}/product/product.do?product_cd=C">사탕/초콜릿</a></li>
 		    </ul>
-		    <c:if test="${user_name eq null}">
+		    <c:if test="${user_id eq null}">
 			    <ul class="nav navbar-nav navbar-right">
 			    	<li><a href="${contextPath}/qna/qna.do"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>
 			      	<li><a href="${contextPath}/notice/notice.do"><span class="glyphicon glyphicon-blackboard"></span> Notice</a></li>
@@ -27,7 +27,7 @@
 			    </ul>
 		    </c:if>
 		    <!-- 로그인 했을 시 -->
-		    <c:if test="${user_name ne null}">
+		    <c:if test="${user_id ne null}">
 			    <ul class="nav navbar-nav navbar-right">
 			    	<li><a><span style="font-weight:900; color:blue;">${user_name}</span>님 환영합니다</a></li>
 			    	<li><a href="${contextPath}/qna/qna.do"><span class="glyphicon glyphicon-question-sign"></span> Q&A</a></li>

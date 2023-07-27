@@ -47,6 +47,7 @@
 				qna_title :$("#qna_reply_title").val(),
 				qna_cont :$("#qna_reply_cont").val(),
 				qna_lv :$("#qna_reply_lv").val(),
+				qna_seq :$("#qna_reply_seq").val(),
 				qna_no : $("#qna_no").val()
 				
 		}
@@ -62,6 +63,8 @@
 			}
 			
 			if(check) {
+				$("#qna_reply_title").val("");
+				$("#qna_reply_cont").val("");
 				alert("답변이 등록되었습니다.");
 				fn_replyList();
 			}
@@ -71,7 +74,61 @@
 		}
 		fn_callAjax("qnaReplyInsert.do","post",false,param,"json",replyListCallback);
 	}
-
+	
+	//답글수정
+	function fn_goReplyUpdate(qna_no,qna_seq,qna_lv) {
+		var param = {
+				qna_no : qna_no,
+				qna_seq : qna_seq,
+				qna_lv : qna_lv
+				
+		}
+		
+		var replyUpdateCallback = function (reval) {
+			console.log(reval);
+			var html = "";
+			html+='<form name="form3" method="post" >';
+			html+='<div class="form-group">';
+			html+=  '<label for="qna_reply_title">제목:</label>';
+			html+=  '<input type="text" class="form-control" id="qna_reply_title" name="qna_reply_title" maxlength="50"  value="'+reval.qna_title+'"placeholder="제목을 입력해주세요.(50자까지)">';
+			html+='</div>';
+			html+='<div class="form-group">';
+			html+=  '<label for="qna_reply_cont">내용:</label>';
+			html+=  '<textarea class="form-control" id="qna_reply_cont"  name="qna_reply_cont"  maxlength="100" placeholder="내용을 입력해주세요.(100자까지)">'+reval.qna_cont+'</textarea>';
+			html+=  '<p id="remain_cont"></p>';
+			html+='</div>';
+			html+='<input type="hidden" value="'+reval.qna_lv+'" id="qna_reply_lv" name="qna_reply_lv">';
+			html+='<input type="hidden" value="'+reval.qna_seq+'" id="qna_reply_seq" name="qna_reply_seq">';
+			html+='<a class="btn btn-info" href="javascript:fn_qnaReplyInsert()">수정하기</a>';
+			html+='</form>';
+			$("#reply"+qna_seq).empty().append(html);
+				
+			
+			
+		}
+		fn_callAjax("qnaReplyUpdate.do","post",false,param,"json",replyUpdateCallback);
+	}
+	
+	//게시글 삭제
+	function fn_goDelete(qna_no,qna_seq,qna_lv) {
+		var param = {
+				qna_no : qna_no,
+				qna_seq : qna_seq,
+				qna_lv : qna_lv
+		}
+		
+		var deleteCallback = function (reval) {
+			if(qna_lv == '1') {
+				alert("게시글이 삭제되었습니다.");
+				window.location.href="${contextPath}/qna/qna.do";
+			}else {
+				alert("댓글이 삭제되었습니다.");
+				fn_replyList();
+			}
+			
+		}
+		fn_callAjax("qnaDelete.do","post",false,param,"json",deleteCallback);
+	}
 
 	
 </script>
@@ -92,6 +149,7 @@
 			    <div>
 			    <c:if test="${user_id eq qnaDetail.user_id}">
 			    	<a class="btn btn-info" href="javascript:fn_goUpdate()">수정하기</a>
+			    	<a class="btn btn-info" href="javascript:fn_goDelete(${qnaDetail.qna_no},1,1)">삭제하기</a>
 			    </c:if>
 			    	<a class="btn btn-info" href="${contextPath}/qna/qna.do">뒤로가기</a>
 			    </div>
@@ -116,7 +174,7 @@
 						  <textarea class="form-control" id="qna_reply_cont"  name="qna_reply_cont"  maxlength='100' placeholder="내용을 입력해주세요.(100자까지)"></textarea>
 						  <p id="remain_cont"></p>
 						</div>
-						
+						<input type="hidden" value="" id="qna_reply_seq" name="qna_reply_seq">
 						<input type="hidden" value="2" id="qna_reply_lv" name="qna_reply_lv">
 						<a class="btn btn-info" href="javascript:fn_qnaReplyInsert()">등록하기</a>
 					</form>

@@ -1,1 +1,1 @@
-select MAX(qna_seq)+1 from tb_qna_detail where qna_no = 8
+insert into tb_user (user_id,user_pw)values('admin','1234')

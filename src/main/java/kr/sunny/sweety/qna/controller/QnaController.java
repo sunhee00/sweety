@@ -183,29 +183,58 @@ public class QnaController {
 	//답글등록
 	@RequestMapping("qnaReplyInsert.do")
 	@ResponseBody
-	public List<Integer> qnaReplyInsert(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	public int qnaReplyInsert(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
-		String user_id = (String) session.getAttribute("user_id");
+		String active = "I";
+		String qnaSeq = (String) paramMap.get("qna_seq");
+		if(!qnaSeq.equals("")) {
+			active = "U";
+			paramMap.put("qna_seq", qnaSeq);
+		}
 		
+		String user_id = (String) session.getAttribute("user_id");
 		paramMap.put("user_id", user_id);
 		
 		
-		int qna_seq = qnaMapper.getQnaSeq(paramMap);
-		paramMap.put("qna_seq", qna_seq);
-		System.out.println(qna_seq + "qna");
-		int qnaReplyInsertDetail = qnaMapper.qnaDetailInsert(paramMap);
+		int qna_seq = 0;
+		int qnaReplyInsertDetail = 0;
+		if(active.equals("I")) {
+			qna_seq = qnaMapper.getQnaSeq(paramMap);
+			paramMap.put("qna_seq", qna_seq);
+			qnaReplyInsertDetail = qnaMapper.qnaDetailInsert(paramMap);
+		}
 		
+		if(active.equals("U")) {
+			qnaReplyInsertDetail = qnaMapper.qnaDetailUpdate(paramMap);
+		}
 		
-		List<Integer> replyList = new ArrayList<>();
-		
-		replyList.add(qnaReplyInsertDetail);
-		
-		
-		
+
 	
-	      return replyList;
+	      return qnaReplyInsertDetail;
 	  }
 	
+	//답글불러오기
+	@RequestMapping("qnaReplyUpdate.do")
+	@ResponseBody
+	public QnaModel qnaReplyUpdate(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		
+		QnaModel qm = qnaMapper.getOneQnaReply(paramMap);
+
 	
+	      return qm;
+	  }
+	
+	//답글불러오기
+	@RequestMapping("qnaDelete.do")
+	@ResponseBody
+	public int qnaDelete(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	         HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
+		
+		int qnaDel = qnaMapper.qnaDelete(paramMap);
+
+	
+	      return qnaDel;
+	  }
 }
 

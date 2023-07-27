@@ -10,7 +10,7 @@
 			  ,qna_lv
 			  ,qna_seq
 			from tb_qna_detail
-			where qna_lv = 1
+			where qna_lv = 1 and qna_del_yn = 'N'
 			order by qna_no desc
 			LIMIT #{pageindex}, #{pageSize} 
 	</select>
@@ -18,6 +18,7 @@
 	<select id="countQnaList" resultType="int">
 		select count(*)
 			from tb_qna_detail
+			where qna_lv = 1 and qna_del_yn = 'N'
 	</select>
 	
 	<!-- insert to tb_qna -->
@@ -45,7 +46,8 @@
 			,qna_lv
 			,qna_title
 			,qna_cont
-			,qna_date) values(
+			,qna_date
+			,qna_del_yn) values(
 					 #{user_id}
 					,#{qna_no}
 					,#{qna_seq}
@@ -53,6 +55,7 @@
 					,#{qna_title}
 					,#{qna_cont}
 					,now()
+					,'N'
 					
 			)
 	</insert>
@@ -92,7 +95,7 @@
 			  ,qna_date
 			  ,qna_lv
 			from tb_qna_detail
-		where qna_no = #{qna_no} and qna_lv = 2
+		where qna_no = #{qna_no} and qna_lv = 2 and qna_del_yn = 'N'
 		order by qna_seq asc
 	</select>
 	
@@ -106,5 +109,19 @@
 		select count(*) from tb_qna_detail where qna_no = #{qna_no} and qna_lv = 2
 	</select>
 	
-
+	<select id="getOneQnaReply" resultType="kr.sunny.sweety.qna.entity.QnaModel">
+		select qna_seq
+			  ,qna_title
+			  ,qna_cont
+			  ,qna_lv
+				from tb_qna_detail
+			where qna_no = #{qna_no} and qna_lv = #{qna_lv} and qna_seq = #{qna_seq}
+			
+	</select>
+	
+	<!-- qna게시글 삭제 -->
+	<update id="qnaDelete">
+		update tb_qna_detail set qna_del_yn = 'Y' where qna_no = #{qna_no} and qna_lv = #{qna_lv} and qna_seq = #{qna_seq}
+	</update>
+	
 </mapper>

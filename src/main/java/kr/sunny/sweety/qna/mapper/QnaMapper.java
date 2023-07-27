@@ -33,6 +33,11 @@ public interface QnaMapper {
 	//reply 개수 가져오기
 	public int getQnaReplyCount(Map<String, Object> paramMap);
 	
-	//reply 개수 가져오기
+	//qna 삭제
 	public int qnaDelete(Map<String, Object> paramMap);
+	
+	//qna 게시글 댓글 수정정보 조회
+	public QnaModel getOneQnaReply(Map<String, Object> paramMap);
+	
+	
 }
